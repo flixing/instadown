@@ -1,0 +1,16 @@
+<center style="margin-top: 20%">
+    <h1>INSTADOWN</h1>
+</center>
+{% if not url_dow %}
+    <center>
+        <form method="post"  action="">
+            <input type="text" id="url" name="url"  placeholder="URL" />
+            <button type="submit">Submit</button>
+        </form>
+    </center>
+
+{% else %}
+    <center>
+        click <a href="{{url_dow}}" download=""> AQUI </a> para baixar a foto.
+    </center>
+{% endif %}

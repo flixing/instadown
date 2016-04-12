@@ -1,3 +1,7 @@
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from flask import Flask, request, render_template
 import requests
 from bs4 import BeautifulSoup
@@ -6,24 +10,35 @@ import os
 app = Flask(__name__)
 
 header = {"User-Agent":"instadown", "e-mail":"contato@contato.com"}
-_regex = r'("https:(.*?).2")'
 
 
-def get_pic(url):
+def get_data(url):
     r = requests.get(url, headers=header)
+    _url_video = ''
     if r.status_code == 200:
         sopa = BeautifulSoup(r.content)
         for meta in sopa.findAll("meta"):
-            if meta.get("property") == "og:image" and meta.get("content") != None:
-                return meta.get("content")
+            if meta.get("property") == "og:title" and meta.get("content") != None:
+                _content_title = meta.get("content")
+            if meta.get("property") == "og:video" and meta.get("content") != None:
+                _url_video = meta.get("content")
+            elif meta.get("property") == "og:image" and meta.get("content") != None:
+                _url_image = meta.get("content")
+        if _url_video == '':
+            return dict(title=_content_title, image=_url_image)
+        else:
+            return dict(title=_content_title, video=_url_video)
+    
+    return None
 
 
 @app.route('/', methods=['GET', 'POST'])
 def post():
     if request.method == 'POST':
         _url = request.form['url']
-        _url_pic = get_pic(_url)
-        return render_template('home.html', url_dow=_url_pic)
+        data = get_data(_url)
+        print data
+        return render_template('home.html', content_dow=data)
     return render_template('home.html')
 
 

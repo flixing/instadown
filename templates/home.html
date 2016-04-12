@@ -4,5 +4,13 @@
         <input type="text" id="url" name="url" placeholder="URL" />
         <button type="submit">Submit</button>
     </form>
-    {% if url_dow %} click <a href="{{url_dow}}" download=""> AQUI </a> para baixar a foto. {% endif %}
+    {% if content_dow %}
+        {% if content_dow.video%}
+            Video - <a href="{{content_dow.video}}" download="">{{ content_dow.title[:60] }} </a>. 
+        {% elif content_dow.image%}
+            Image - <a href="{{content_dow.image}}" download="">{{ content_dow.title[:60] }} </a>.
+        {%else%}
+            erro ao buscar arquivo
+        {% endif %}
+    {% endif %}
 </center>

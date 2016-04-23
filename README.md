@@ -5,7 +5,7 @@ pequeno projeto para para baixar fotos e videos do istagram.
 http://natanocr.pythonanywhere.com/
 
 # instale os requerimentos com
-pip install -r requirements.txt
+pip install -r requeriments.txt
 
 #executar
 python instadown.py
